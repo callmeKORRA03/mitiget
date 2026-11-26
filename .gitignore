@@ -1,0 +1,39 @@
+# Secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+INTERVIEW_PREP.md
+
+# Python
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local data and test output
+*.sqlite3
+*.db
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+.tox/
+
+# Logs and generated assets
+*.log
+logs/
+staticfiles/
+
+# Editor and OS metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

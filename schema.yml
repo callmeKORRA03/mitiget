@@ -1,0 +1,1148 @@
+openapi: 3.0.3
+info:
+  title: Mitiget Access Governance API
+  version: 1.0.0
+  description: Multi-tenant RBAC, module licences and scoped access.
+paths:
+  /api/admin/access-review/:
+    get:
+      operationId: admin_access_review_retrieve
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessChange'
+          description: ''
+    post:
+      operationId: admin_access_review_create
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessChange'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccessChange'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AccessChange'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessChange'
+          description: ''
+  /api/admin/grants/:
+    get:
+      operationId: admin_grants_retrieve
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGrant'
+          description: ''
+    post:
+      operationId: admin_grants_create
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionGrant'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PermissionGrant'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PermissionGrant'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGrant'
+          description: ''
+  /api/admin/grants/{grant_id}/:
+    delete:
+      operationId: admin_grants_destroy
+      parameters:
+      - in: path
+        name: grant_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/admin/licenses/:
+    get:
+      operationId: admin_licenses_retrieve
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleLicense'
+          description: ''
+  /api/admin/licenses/{module}/:
+    put:
+      operationId: admin_licenses_update
+      parameters:
+      - in: path
+        name: module
+        schema:
+          type: string
+        required: true
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModuleLicense'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ModuleLicense'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ModuleLicense'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleLicense'
+          description: ''
+  /api/admin/memberships/{membership_id}/modules/:
+    post:
+      operationId: admin_memberships_modules_create
+      parameters:
+      - in: path
+        name: membership_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModuleAssignment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ModuleAssignment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ModuleAssignment'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModuleAssignment'
+          description: ''
+  /api/admin/memberships/{membership_id}/modules/{module}/:
+    delete:
+      operationId: admin_memberships_modules_destroy
+      parameters:
+      - in: path
+        name: membership_id
+        schema:
+          type: integer
+        required: true
+      - in: path
+        name: module
+        schema:
+          type: string
+        required: true
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/admin/users/:
+    get:
+      operationId: admin_users_retrieve
+      tags:
+      - admin
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+          description: ''
+    post:
+      operationId: admin_users_create
+      tags:
+      - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+          description: ''
+  /api/auth/token/:
+    post:
+      operationId: auth_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/findings/:
+    get:
+      operationId: findings_list
+      tags:
+      - findings
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Finding'
+          description: ''
+    post:
+      operationId: findings_create
+      tags:
+      - findings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Finding'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+  /api/findings/{id}/:
+    get:
+      operationId: findings_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+    put:
+      operationId: findings_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Finding'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+    patch:
+      operationId: findings_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFinding'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFinding'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFinding'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+    delete:
+      operationId: findings_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/findings/{id}/approve/:
+    post:
+      operationId: findings_approve_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Finding'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+  /api/findings/{id}/close/:
+    post:
+      operationId: findings_close_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this audit finding.
+        required: true
+      tags:
+      - findings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Finding'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Finding'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finding'
+          description: ''
+  /api/org-nodes/:
+    get:
+      operationId: org_nodes_list
+      tags:
+      - org-nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrgNode'
+          description: ''
+    post:
+      operationId: org_nodes_create
+      tags:
+      - org-nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgNode'
+          description: ''
+  /api/org-nodes/{id}/:
+    get:
+      operationId: org_nodes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this org node.
+        required: true
+      tags:
+      - org-nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgNode'
+          description: ''
+    put:
+      operationId: org_nodes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this org node.
+        required: true
+      tags:
+      - org-nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrgNode'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgNode'
+          description: ''
+    patch:
+      operationId: org_nodes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this org node.
+        required: true
+      tags:
+      - org-nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrgNode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrgNode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrgNode'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgNode'
+          description: ''
+    delete:
+      operationId: org_nodes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this org node.
+        required: true
+      tags:
+      - org-nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/risks/:
+    get:
+      operationId: risks_list
+      tags:
+      - risks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Risk'
+          description: ''
+    post:
+      operationId: risks_create
+      tags:
+      - risks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Risk'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Risk'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Risk'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Risk'
+          description: ''
+  /api/risks/{id}/:
+    get:
+      operationId: risks_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this risk record.
+        required: true
+      tags:
+      - risks
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Risk'
+          description: ''
+    put:
+      operationId: risks_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this risk record.
+        required: true
+      tags:
+      - risks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Risk'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Risk'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Risk'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Risk'
+          description: ''
+    patch:
+      operationId: risks_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this risk record.
+        required: true
+      tags:
+      - risks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedRisk'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedRisk'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedRisk'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Risk'
+          description: ''
+    delete:
+      operationId: risks_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this risk record.
+        required: true
+      tags:
+      - risks
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/tenants/:
+    get:
+      operationId: tenants_retrieve
+      tags:
+      - tenants
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantMembership'
+          description: ''
+components:
+  schemas:
+    AccessChange:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        action:
+          type: string
+          maxLength: 30
+        target_email:
+          type: string
+          format: email
+          maxLength: 254
+        module:
+          type: string
+          maxLength: 20
+        permission:
+          type: string
+          maxLength: 30
+        scope_name:
+          type: string
+          maxLength: 200
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        ai_summary:
+          type: string
+      required:
+      - action
+      - created_at
+      - id
+      - target_email
+    CreateUser:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+        first_name:
+          type: string
+        last_name:
+          type: string
+        role:
+          allOf:
+          - $ref: '#/components/schemas/RoleEnum'
+          default: user
+      required:
+      - email
+      - password
+    Finding:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        node:
+          type: integer
+        title:
+          type: string
+          maxLength: 250
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        created_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - id
+      - node
+      - title
+    KindEnum:
+      enum:
+      - organization
+      - subsidiary
+      - branch
+      - department
+      type: string
+      description: |-
+        * `organization` - Organization
+        * `subsidiary` - Subsidiary
+        * `branch` - Branch
+        * `department` - Department
+    ModuleAssignment:
+      type: object
+      properties:
+        module:
+          $ref: '#/components/schemas/ModuleEnum'
+      required:
+      - module
+    ModuleEnum:
+      enum:
+      - risk
+      - audit
+      type: string
+      description: |-
+        * `risk` - Risk
+        * `audit` - Internal Audit
+    ModuleLicense:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        module:
+          $ref: '#/components/schemas/ModuleEnum'
+        active:
+          type: boolean
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - module
+    OrgNode:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        name:
+          type: string
+          maxLength: 200
+        kind:
+          $ref: '#/components/schemas/KindEnum'
+      required:
+      - id
+      - kind
+      - name
+    PatchedFinding:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        node:
+          type: integer
+        title:
+          type: string
+          maxLength: 250
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        created_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedOrgNode:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        parent:
+          type: integer
+          nullable: true
+        name:
+          type: string
+          maxLength: 200
+        kind:
+          $ref: '#/components/schemas/KindEnum'
+    PatchedRisk:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        node:
+          type: integer
+        title:
+          type: string
+          maxLength: 250
+        description:
+          type: string
+        severity:
+          type: string
+          maxLength: 20
+        created_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PermissionEnum:
+      enum:
+      - view_risk
+      - create_risk
+      - edit_risk
+      - delete_risk
+      - view_audit
+      - create_audit
+      - edit_audit
+      - approve_finding
+      - close_finding
+      type: string
+      description: |-
+        * `view_risk` - View risks
+        * `create_risk` - Create risks
+        * `edit_risk` - Edit risks
+        * `delete_risk` - Delete risks
+        * `view_audit` - View audit findings
+        * `create_audit` - Create audit findings
+        * `edit_audit` - Edit audit findings
+        * `approve_finding` - Approve findings
+        * `close_finding` - Close findings
+    PermissionGrant:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        target_user_id:
+          type: integer
+          writeOnly: true
+        module:
+          $ref: '#/components/schemas/ModuleEnum'
+        permission:
+          $ref: '#/components/schemas/PermissionEnum'
+        node:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - module
+      - permission
+      - target_user_id
+    Risk:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        node:
+          type: integer
+        title:
+          type: string
+          maxLength: 250
+        description:
+          type: string
+        severity:
+          type: string
+          maxLength: 20
+        created_by:
+          type: integer
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - created_by
+      - id
+      - node
+      - title
+    RoleEnum:
+      enum:
+      - super_admin
+      - module_admin
+      - user
+      type: string
+      description: |-
+        * `super_admin` - Super Admin
+        * `module_admin` - Module Admin
+        * `user` - Regular User
+    StatusEnum:
+      enum:
+      - open
+      - pending
+      - approved
+      - closed
+      type: string
+      description: |-
+        * `open` - Open
+        * `pending` - Pending approval
+        * `approved` - Approved
+        * `closed` - Closed
+    TenantMembership:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        role:
+          type: string
+      required:
+      - id
+      - name
+      - role
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

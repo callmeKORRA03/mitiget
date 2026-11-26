@@ -1,0 +1,7 @@
+{% extends "governance/base.html" %}
+{% block title %}Module licences · Mitiget{% endblock %}{% block page_heading %}Module licences{% endblock %}
+{% block content %}<div class="page-intro"><div><div class="eyebrow">TENANT CONFIGURATION</div><h1>Module licences<span class="accent-dot">.</span></h1><p>Manage which product modules this organization is licensed to use.</p></div></div>
+<div class="callout"><span class="callout-icon">i</span><p>Only a tenant Super Admin can view or change licences. The API checks licence status on every module request, including requests from Module Admins.</p></div>
+<div class="license-grid" id="licenses-list"><div class="empty-card">Loading licence status…</div></div>
+<div class="panel-note">Turning a licence off blocks module API requests. Existing permissions and records are retained and become usable again if the licence is reactivated.</div>
+{% endblock %}

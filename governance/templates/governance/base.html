@@ -1,0 +1,44 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{% block title %}Mitiget Access Console{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'governance/css/app.css' %}">
+  <script defer src="{% static 'governance/js/app.js' %}"></script>
+</head>
+<body data-page="{{ page }}">
+{% if page == "login" %}
+  {% block auth_content %}{% endblock %}
+{% else %}
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="{% url 'app_dashboard' %}"><span class="brand-mark">M</span><span>mitiget<span class="brand-sub">ACCESS CONSOLE</span></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav class="nav-list" aria-label="Main navigation">
+      <a href="{% url 'app_dashboard' %}" data-nav="dashboard"><span class="nav-icon">?</span>Overview</a>
+      <a href="{% url 'app_page' page='users' %}" data-nav="users"><span class="nav-icon">?</span>Users & roles</a>
+      <a href="{% url 'app_page' page='permissions' %}" data-nav="permissions"><span class="nav-icon">?</span>Permissions</a>
+      <a href="{% url 'app_page' page='licences' %}" data-nav="licences"><span class="nav-icon">?</span>Module licences</a>
+      <div class="side-label nav-divider">MODULES</div>
+      <a href="{% url 'app_page' page='risks' %}" data-nav="risks"><span class="nav-icon">?</span>Risk</a>
+      <a href="{% url 'app_page' page='audits' %}" data-nav="audits"><span class="nav-icon">?</span>Internal Audit</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="security-note"><span class="secure-dot"></span><span>API-enforced access<br><small>Every action is checked server-side</small></span></div><button class="nav-logout" data-logout>? <span>Sign out</span></button></div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar">
+      <button class="mobile-menu" aria-label="Toggle navigation" data-menu-toggle>?</button>
+      <div class="crumb"><span>Workspace</span><b>/</b><strong>{% block page_heading %}Overview{% endblock %}</strong></div>
+      <div class="topbar-right"><label class="tenant-picker"><span>ORGANIZATION</span><select id="tenant-select" aria-label="Select organization"><option value="">Loading…</option></select></label><div class="user-chip"><span class="avatar" id="user-avatar">–</span><span><b id="header-user">Loading user</b><small id="header-role">Select tenant</small></span></div></div>
+    </header>
+    <section class="page-content">
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+</div>
+{% endif %}
+</body>
+</html>
